@@ -206,34 +206,36 @@ contract LaunchTokenTest is Test {
     }
 
     function test_noMintBurnAdminOrUpgradeEntryPointsForAnyone() public {
-        string[20] memory signatures = [
-            "mint(address,uint256)",
-            "mint(uint256)",
-            "mint()",
-            "issue(uint256)",
-            "burn(uint256)",
-            "burnFrom(address,uint256)",
-            "owner()",
-            "setOwner(address)",
-            "transferOwnership(address)",
-            "upgradeTo(address)",
-            "upgradeToAndCall(address,bytes)",
-            "initialize(address)",
-            "pause()",
-            "unpause()",
-            "setMinter(address)",
-            "setTax(uint256)",
-            "blacklist(address)",
-            "rebase(uint256)",
-            "stake(uint256)",
-            "grantRole(bytes32,address)"
+        // Each probe must be ABI-valid. In particular, a malformed dynamic argument
+        // could revert in the decoder even if an unwanted upgrade function exists.
+        bytes[20] memory calls = [
+            abi.encodeWithSignature("mint(address,uint256)", ALICE, uint256(1)),
+            abi.encodeWithSignature("mint(uint256)", uint256(1)),
+            abi.encodeWithSignature("mint()"),
+            abi.encodeWithSignature("issue(uint256)", uint256(1)),
+            abi.encodeWithSignature("burn(uint256)", uint256(1)),
+            abi.encodeWithSignature("burnFrom(address,uint256)", address(this), uint256(1)),
+            abi.encodeWithSignature("owner()"),
+            abi.encodeWithSignature("setOwner(address)", ALICE),
+            abi.encodeWithSignature("transferOwnership(address)", ALICE),
+            abi.encodeWithSignature("upgradeTo(address)", address(token)),
+            abi.encodeWithSignature("upgradeToAndCall(address,bytes)", address(token), bytes("")),
+            abi.encodeWithSignature("initialize(address)", ALICE),
+            abi.encodeWithSignature("pause()"),
+            abi.encodeWithSignature("unpause()"),
+            abi.encodeWithSignature("setMinter(address)", ALICE),
+            abi.encodeWithSignature("setTax(uint256)", uint256(1)),
+            abi.encodeWithSignature("blacklist(address)", ALICE),
+            abi.encodeWithSignature("rebase(uint256)", uint256(1)),
+            abi.encodeWithSignature("stake(uint256)", uint256(1)),
+            abi.encodeWithSignature("grantRole(bytes32,address)", bytes32(0), ALICE)
         ];
         address[3] memory callers = [address(this), ISSUER, ALICE];
         for (uint256 c; c < callers.length; ++c) {
-            for (uint256 i; i < signatures.length; ++i) {
+            for (uint256 i; i < calls.length; ++i) {
                 vm.prank(callers[c]);
-                (bool ok,) = address(token).call(abi.encodeWithSignature(signatures[i], ALICE, 1));
-                assertFalse(ok, signatures[i]);
+                (bool ok,) = address(token).call(calls[i]);
+                assertFalse(ok, "unexpected privileged entry point");
             }
         }
         assertEq(token.totalSupply(), SUPPLY);
