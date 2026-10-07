@@ -1,0 +1,41 @@
+{
+  "schema": "emberevo-launch-intent/v1",
+  "kind": "evm_project",
+  "chainId": 1,
+  "issuer": "0x1C651928150DADDDA9C2C040a9D4901d862f8eC4",
+  "launchPayer": "0x1C651928150DADDDA9C2C040a9D4901d862f8eC4",
+  "token": {
+    "artifact": "src/LaunchToken.sol:LaunchToken",
+    "name": "EmberEvo",
+    "symbol": "EMVO",
+    "decimals": 18,
+    "initialSupply": "1000000000000000000000000000",
+    "constructorArgs": []
+  },
+  "contracts": [],
+  "pairedCurrency": {
+    "symbol": "IMD",
+    "addressSource": "official Ethereum mainnet network.pairToken"
+  },
+  "economics": {
+    "poolBps": 8600,
+    "swarmBps": 1000,
+    "remainderBps": 400,
+    "remainderTo": "0x1C651928150DADDDA9C2C040a9D4901d862f8eC4"
+  },
+  "poolAdmission": {
+    "fee": 3000,
+    "tickSpacing": 60,
+    "initialPrice": "79228162514264337593543950336"
+  },
+  "requiredStandardPolicyTerms": {
+    "openingCap": {
+      "currency": "IMD",
+      "amount": "2500"
+    },
+    "tradingFeeBps": 125,
+    "launchPayerFeeBps": 100,
+    "protocolFeeBps": 25,
+    "feeSource": "official mainnet LaunchFees, to be verified at Check"
+  }
+}

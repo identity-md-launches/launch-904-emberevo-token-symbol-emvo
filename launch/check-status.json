@@ -1,0 +1,20 @@
+{
+  "status": "blocked_missing_official_policy_network_and_quote",
+  "inputFile": "launch/intent.json",
+  "inputDigestAlgorithm": "sha256-file-bytes",
+  "inputSha256": "a5887650c8227315d01b6dc521d96ed784e5a5d13f68cfe50e5e864f01a01203",
+  "officialPolicyVersion": null,
+  "officialPolicyDigest": null,
+  "projectFactory": null,
+  "imdPairToken": null,
+  "launchFees": null,
+  "protocolFeeRecipient": null,
+  "swarmDistributor": null,
+  "launchPaymentTerms": null,
+  "deploymentGasTerms": null,
+  "actualQuote": null,
+  "actualQuoteInputBinding": null,
+  "paymentAuthorized": false,
+  "deploymentAuthorized": false,
+  "transactionsBroadcast": []
+}
